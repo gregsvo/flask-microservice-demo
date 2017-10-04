@@ -9,9 +9,12 @@ data = []
 fake = Faker()
 
 
-@app.route('/allOrders', methods=['GET'])
-def all_orders():
-    return jsonify(data), 200
+@app.route('/create', methods=['PUT'])
+def add_job():
+    job_data = request.get_json()
+    if not job_data:
+        response_object = {'status': 'fail', 'message': 'Invalid job creation payload.'}
+        return jsonify(response_object), 400
 
 
 @app.route('/order/<int:num>', methods=['GET'])
@@ -28,11 +31,9 @@ def cust_search():
 
 
 def create_order(num):
-    return {
-        'id': num,
-        'cust': fake.name(),
-        'items': [random.randint(1, 100) for _ in range(1, random.randint(1, 10))]
-    }
+    return {'id': num,
+            'cust': fake.name(),
+            'items': [random.randint(1, 100) for _ in range(1, random.randint(1, 10))]}
 
 
 def create_data():
@@ -42,4 +43,5 @@ def create_data():
 if __name__ == '__main__':
     data = create_data()
     app.logger.setLevel(logging.INFO)
+    # app.run(debug=True, host='0.0.0.0', port=5477) # localdev
     app.run(debug=True, host='0.0.0.0')

@@ -1,0 +1,4 @@
+Faker==0.8.3
+Flask==0.12.2
+Flask-SQLAlchemy==2.2
+SQLAlchemy==1.1.10

@@ -1,34 +1,46 @@
 version: "2.1"
 services:
-  backend:
-    container_name: demo_backend
+  steve_api:
+    container_name: steve_api
     build:
-      context: ./backend
+      context: ./api
     ports:
       - "5000:5000"
     environment:
       - DEBUG=True
-  orders:
-    container_name: demo_orders
+  steve_dispatcher:
+    container_name: steve_dispatcher
     build:
-      context: ./orders
+      context: ./dispatcher
     ports:
       - "5001:5000"
     environment:
       - DEBUG=True
-  items:
-    container_name: demo_items
+  steve_jobs_store:
+    container_name: steve_jobs_store
     build:
-      context: ./items
+      context: ./jobs_store
     ports:
       - "5002:5000"
     environment:
       - DEBUG=True
-  aggregate:
-    container_name: demo_aggregate
+  steve_scheduler:
+    container_name: steve_scheduler
     build:
-      context: ./aggregate
+      context: ./scheduler
     ports:
       - "5003:5000"
     environment:
       - DEBUG=True
+      - DATABASE_URL=postgres://postgres:postgres@users-db:5432/jobs_test
+  # steve_jobs_db:
+  #   container_name: steve_jobs_db
+  #   build:
+  #     context: ./db
+  #   ports:
+  #       - 5004:5000
+  #   environment:
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=postgres
+  #   healthcheck:
+  #     test: exit 0
